@@ -7,7 +7,7 @@ ISUCON 用のプロビジョニングツール
 ### 下準備
 
 - 空のリポジトリを用意する
-- GitHub の トークン (Granular Access Token / Personal Access Token) を発行しておく
+- GitHub の トークン (Fine-grained tokens / Tokens (classic)) を発行しておく
   - 該当のリポジトリへのアクセス権を与えておく
 - Discord の適当なサーバーの適当なチャンネルに Webhook を作成して、URLを保管しておく
 
