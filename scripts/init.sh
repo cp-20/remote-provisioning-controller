@@ -55,8 +55,6 @@ if [ "$answer" != "y" ]; then
   exit 1
 fi
 
-variables=$(env | grep "^RPC_" | awk -F= '{print "$" $1}')
-
 for server in $active_servers; do
   SERVER_ADDRESS=$(jq -r ".servers[] | select(.name == \"${server}\") | .address" "${script_dir}/../config.json")
   export RPC_SERVER_ID=${server}
@@ -65,5 +63,6 @@ for server in $active_servers; do
     is_master=true
   fi
   export RPC_IS_MASTER=${is_master}
+  variables=$(env | grep "^RPC_" | awk -F= '{print "$" $1}')
   cat "${script_dir}/init-remote.sh" | envsubst "${variables}" | ssh "isucon@${SERVER_ADDRESS}" bash
 done
