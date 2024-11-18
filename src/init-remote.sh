@@ -48,20 +48,26 @@ mkdir -p ${RPC_PROJECT_ROOT}
 cd ${RPC_PROJECT_ROOT}
 git init
 git remote add origin "https://github.com/${RPC_GITHUB_REPO_OWNER}/${RPC_GITHUB_REPO_NAME}"
-mkdir -p ${RPC_NGINX_CONF_DIR_REPO}
 
-# 設定ファイルをコピー
-sudo cp -r ${RPC_NGINX_CONF_DIR_ORIGINAL}/ ${RPC_NGINX_CONF_DIR_REPO}
-sudo cp -r ${RPC_DB_CONF_DIR_ORIGINAL}/ ${RPC_DB_CONF_DIR_REPO}
-sudo cp -r ${RPC_SYSTEMD_CONF_DIR_ORIGINAL}/ ${RPC_SYSTEMD_CONF_DIR_REPO}
-sudo chmod -R 777 ${RPC_NGINX_CONF_DIR_REPO}
-sudo chmod -R 777 ${RPC_DB_CONF_DIR_REPO}
-sudo chmod -R 777 ${RPC_SYSTEMD_CONF_DIR_REPO}
+# 設定ファイルをコピー (masterのみ)
+if [ $RPC_IS_MASTER = "true" ]; then
+  mkdir -p ${RPC_NGINX_CONF_DIR_REPO}
+  mkdir -p ${RPC_DB_CONF_DIR_REPO}
+  mkdir -p ${RPC_SYSTEMD_CONF_DIR_REPO}
+  sudo cp -r ${RPC_NGINX_CONF_DIR_ORIGINAL}/ ${RPC_NGINX_CONF_DIR_REPO}
+  sudo cp -r ${RPC_DB_CONF_DIR_ORIGINAL}/ ${RPC_DB_CONF_DIR_REPO}
+  sudo cp -r ${RPC_SYSTEMD_CONF_DIR_ORIGINAL}/ ${RPC_SYSTEMD_CONF_DIR_REPO}
+  sudo chmod -R 777 ${RPC_NGINX_CONF_DIR_REPO}
+  sudo chmod -R 777 ${RPC_DB_CONF_DIR_REPO}
+  sudo chmod -R 777 ${RPC_SYSTEMD_CONF_DIR_REPO}
+fi
 
-# webappをコピー
-mkdir -p ${RPC_APP_DIR_REPO}
-sudo cp -r ${RPC_APP_DIR_ORIGINAL}/ ${RPC_APP_DIR_REPO}
-sudo chmod -R 777 ${RPC_APP_DIR_REPO}
+# webappをコピー (masterのみ)
+if [ $RPC_IS_MASTER = "true" ]; then
+  mkdir -p ${RPC_APP_DIR_REPO}
+  sudo cp -r ${RPC_APP_DIR_ORIGINAL}/ ${RPC_APP_DIR_REPO}
+  sudo chmod -R 777 ${RPC_APP_DIR_REPO}
+fi
 
 # env.shをコピー
 sudo mv ${RPC_ENV_FILE_ORIGINAL} ${RPC_ENV_FILE_REPO}
@@ -84,12 +90,14 @@ sudo touch ${RPC_DB_SLOW_LOG_PATH}
 sudo chmod -R 777 /var/log/nginx
 sudo chmod -R 777 /var/log/mysql
 
-# GitHubにpush
-cd ${RPC_PROJECT_ROOT}
-git add .
-git commit -m 'deploy'
-git branch -M main
-git push -u origin ${RPC_DEPLOY_BRANCH}
+# GitHubにpush (masterのみ)
+if [ $RPC_IS_MASTER = "true" ]; then
+  cd ${RPC_PROJECT_ROOT}
+  git add .
+  git commit -m 'deploy'
+  git branch -M main
+  git push -u origin ${RPC_DEPLOY_BRANCH}
+fi
 
 # node_exporterのインストール
 cd /tmp

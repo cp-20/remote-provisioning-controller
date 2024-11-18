@@ -51,6 +51,7 @@ if [ -z "${LOKI_URL}" ]; then
 fi
 
 export RPC_SERVER_ID=${SERVER_ID}
+export RPC_IS_MASTER=${IS_MASTER}
 export RPC_SSH_USERS=${SSH_USERS}
 export RPC_PROJECT_ROOT="${PROJECT_ROOT:-/home/isucon/isucon14}"
 export RPC_DEPLOY_BRANCH="${DEPLOY_BRANCH:-main}"
