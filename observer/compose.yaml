@@ -28,8 +28,6 @@ services:
       - '49000:9000'
     volumes:
       - pprotein:/app/data
-    env_file:
-      - ./pprotein/env.sh
   adminer:
     image: adminer:latest
     ports:

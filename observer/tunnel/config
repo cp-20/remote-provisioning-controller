@@ -7,7 +7,6 @@ Host *
 	LocalForward 0:3306 localhost:3306
 	LocalForward 0:8888 localhost:8888
 	LocalForward 0:9100 localhost:9100
-	LocalForward 0:9999 localhost:9999
 	LocalForward 0:10008 localhost:10008
 
 Host s1
