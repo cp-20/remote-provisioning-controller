@@ -153,17 +153,22 @@ wget https://github.com/grafana/loki/releases/download/v3.2.1/promtail-linux-amd
 unzip promtail-linux-amd64.zip
 sudo mv promtail-linux-amd64 /usr/local/bin/promtail
 sudo cat <<EOF >/etc/promtail-local-config.yaml
+server:
+  http_listen_port: 9080
+  http_listen_address: 0.0.0.0
+
+positions:
+  filename: /var/lib/promtail/positions.yaml
+
 clients:
   - url: ${RPC_LOKI_URL}
-    external_labels:
-      host: ${RPC_SERVER_ID}
 scrape_configs:
   - job_name: journal
     journal:
       max_age: 8h
       labels:
         job: systemd-journal
-        host: '{{ server_id }}'
+        host: ${RPC_SERVER_ID}
     relabel_configs:
       - source_labels: ['__journal__systemd_unit']
         target_label: 'unit'

@@ -20,7 +20,23 @@ if [ "$1" == "--dry-run" ]; then
   shift
 fi
 
-source "${script_dir}/setup-variables.sh"
+if [ -z "${SERVER_ID}" ]; then
+  echo -e "$error SERVER_ID is required."
+  exit 1
+fi
+IS_MASTER=false
+if [ ${SERVER_ID} == "s1" ]; then
+  IS_MASTER=true
+fi
+
+if [ -z "${SERVER_ADDRESS}" ]; then
+  echo -e "$error SERVER_ADDRESS is required."
+  exit 1
+fi
+
+source "${script_dir}/setup-common-variables.sh"
+export RPC_SERVER_ID=${SERVER_ID}
+export RPC_IS_MASTER=${IS_MASTER}
 
 # 変数を表示
 echo -e "$info Variables:"
