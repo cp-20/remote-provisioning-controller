@@ -14,34 +14,10 @@ nc='\033[0m'
 error="${red}[ERROR]${nc}"
 info="${blue}[INFO]${nc}"
 
-DRY_RUN=false
-if [ "$1" == "--dry-run" ]; then
-  DRY_RUN=true
-  shift
-fi
-
-if [ -z "${SERVER_ID}" ]; then
-  echo -e "$error SERVER_ID is required."
-  exit 1
-fi
-IS_MASTER=false
-if [ ${SERVER_ID} == "s1" ]; then
-  IS_MASTER=true
-fi
-
-if [ -z "${SERVER_ADDRESS}" ]; then
-  echo -e "$error SERVER_ADDRESS is required."
-  exit 1
-fi
-
 source "${script_dir}/setup-common-variables.sh"
-export RPC_SERVER_ID=${SERVER_ID}
-export RPC_IS_MASTER=${IS_MASTER}
 
 # 変数を表示
 echo -e "$info Variables:"
-echo -e "  RPC_SERVER_ID = ${yellow}\"${RPC_SERVER_ID}${nc}\""
-echo -e "  RPC_PROJECT_ROOT = ${yellow}\"${RPC_PROJECT_ROOT}${nc}\""
 echo -e "  RPC_DEPLOY_BRANCH = ${yellow}\"${RPC_DEPLOY_BRANCH}${nc}\""
 echo -e "  RPC_DISCORD_WEBHOOK_URL = ${yellow}\"${RPC_DISCORD_WEBHOOK_URL}${nc}\""
 echo -e "  RPC_LOKI_URL = ${yellow}\"${RPC_LOKI_URL}${nc}\""
@@ -64,13 +40,30 @@ echo -e "  RPC_DB_USER = ${yellow}\"${RPC_DB_USER}${nc}\""
 echo -e "  RPC_DB_ADMIN_USER = ${yellow}\"${RPC_DB_ADMIN_USER}${nc}\""
 echo -e "  RPC_DB_ADMIN_PASSWORD = ${yellow}\"${RPC_DB_ADMIN_PASSWORD}${nc}\""
 
+active_servers=$(jq -r '.servers[] | select(.enabled == true) | .name' "${script_dir}/../config.json")
+inactive_servers=$(jq -r '.servers[] | select(.enabled == false) | .name' "${script_dir}/../config.json")
+
+active_servers_print=$(echo "$active_servers" | tr '\n' ',')
+inactive_servers_print=$(echo "$inactive_servers" | tr '\n' ',')
+echo -e "$info Initializing ${yellow}${active_servers_print%,}${nc} (inactive: ${yellow}${inactive_servers_print%,}${nc})"
+
+# y/n 確認
+echo -ne "\n$info Continue? [y/n] "
+read -r answer
+if [ "$answer" != "y" ]; then
+  echo -e "$error Aborted."
+  exit 1
+fi
+
 variables=$(env | grep "^RPC_" | awk -F= '{print "$" $1}')
 
-if [ $DRY_RUN == true ]; then
-  echo -e "\n----------------------------------------\n"
-  echo -ne "${gray}"
-  echo "$(cat "${script_dir}/init-remote.sh" | envsubst "${variables}")"
-  echo -ne "${nc}"
-else
+for server in $active_servers; do
+  SERVER_ADDRESS=$(jq -r ".servers[] | select(.name == \"${server}\") | .address" "${script_dir}/../config.json")
+  export RPC_SERVER_ID=${server}
+  is_master=false
+  if [ "$server" == "s1" ]; then
+    is_master=true
+  fi
+  export RPC_IS_MASTER=${is_master}
   cat "${script_dir}/init-remote.sh" | envsubst "${variables}" | ssh "isucon@${SERVER_ADDRESS}" bash
-fi
+done
