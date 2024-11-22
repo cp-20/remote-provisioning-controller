@@ -32,11 +32,15 @@ ISUCON 用のプロビジョニングツール
 
 次のような環境変数を設定する。`.env` ファイルに書き込むと良い (`.env.sample` をコピーして作成するとよい)
 
-- `SSH_USERS`
-  - SSH鍵を登録する GitHub のユーザー (カンマ区切り)
-- `GITHUB_TOKEN`
-  - 用意した GitHub のトークン
-- `DISCORD_WEBHOOK_URL`
-  - 用意した Discord の Webhook URL
-- `LOKI_URL`
-  - 
+```shell
+export SSH_USERS="SSHするユーザーのGitHub ID (カンマ区切り)"
+export GITHUB_TOKEN="GitHubのトークン"
+export DISCORD_WEBHOOK_URL="DiscordのWebhook URL"
+export LOKI_URL="LokiのURL"
+
+export PROJECT_ROOT="プロジェクトのルートパス"
+export GITHUB_REPO_OWNER="リポジトリのオーナー (organization)"
+export GITHUB_REPO_NAME="リポジトリの名前"
+export APP_BIN_ORIGINAL="アプリの実行ファイルのパス"
+export APP_SERVICE_NAME="サービス名"
+```

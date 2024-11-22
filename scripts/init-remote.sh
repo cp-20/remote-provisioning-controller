@@ -26,6 +26,7 @@ echo -e "$success スペックを確認"
 # SSH公開鍵の登録
 IFS=',' read -r -a users <<<"${RPC_SSH_USERS}"
 for user in "${users[@]}"; do
+  mkdir -p /home/isucon/.ssh
   wget -qO- https://github.com/${user}.keys >>/home/isucon/.ssh/authorized_keys
 done
 sudo systemctl restart sshd
