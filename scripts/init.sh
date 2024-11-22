@@ -29,7 +29,7 @@ for server in $active_servers; do
 
   export RPC_SERVER_ID=${server}
   is_master=false
-  if [ "$server" == "s2" ]; then
+  if [ "$server" == "s1" ]; then
     is_master=true
   fi
   export RPC_IS_MASTER=${is_master}

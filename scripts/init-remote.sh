@@ -116,6 +116,7 @@ fi
 # env.shをコピー
 echo "env = ${RPC_ENV_FILE_REPO}"
 if [ ! -f "${RPC_ENV_FILE_REPO}" ]; then
+  mkdir -p $(dirname ${RPC_ENV_FILE_REPO})
   sudo mv ${RPC_ENV_FILE_ORIGINAL} ${RPC_ENV_FILE_REPO}
   sudo ln -s ${RPC_ENV_FILE_REPO} ${RPC_ENV_FILE_ORIGINAL}
   sudo chmod 777 ${RPC_ENV_FILE_REPO}
