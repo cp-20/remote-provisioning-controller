@@ -270,6 +270,46 @@ else
   echo -e "$info skipped Loki Promtailのサービス登録"
 fi
 
+# pprotein-agent のインストール
+if ! command -v pprotein-agent &>/dev/null; then
+  wget -qO /tmp/pprotein_1.2.3_linux_amd64.tar.gz https://github.com/kaz/pprotein/releases/download/v1.2.3/pprotein_1.2.3_linux_amd64.tar.gz
+  tar xvfz /tmp/pprotein_1.2.3_linux_amd64.tar.gz -C /tmp
+  sudo mv /tmp/pprotein-agent /usr/local/bin/
+  echo -e "$success pprotein-agent のインストール"
+else
+  echo -e "$info skipped pprotein-agent のインストール"
+fi
+if ! systemctl is-active --quiet pprotein-agent; then
+  sudo tee /etc/default/pprotein-agent.env >/dev/null <<EOF
+PPROTEIN_HTTPLOG=${RPC_NGINX_ACCESS_LOG_PATH}
+PPROTEIN_SLOWLOG=${RPC_DB_SLOW_LOG_PATH}
+PPROTEIN_GIT_REPOSITORY=${RPC_PROJECT_ROOT}
+PORT=10008
+EOF
+  sudo useradd -s /sbin/nologin pprotein-agent
+  sudo chown pprotein-agent:pprotein-agent /usr/local/bin/pprotein-agent /etc/default/pprotein-agent.env
+  sudo tee /etc/systemd/system/pprotein-agent.service >/dev/null <<EOF
+[Unit]
+Description=pprotein-agent
+After=network.target
+
+[Service]
+User=pprotein-agent
+ExecStart=/usr/local/bin/pprotein-agent
+EnvironmentFile=/etc/default/pprotein-agent.env
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+  sudo systemctl daemon-reload
+  sudo systemctl enable pprotein-agent
+  sudo systemctl start pprotein-agent
+  echo -e "$success pprotein-agent のサービス登録"
+else
+  echo -e "$info skipped pprotein-agent のサービス登録"
+fi
+
 # Discordに通知
 curl -s -X POST -H "Content-Type: application/json" -d "{\"content\": \"**${RPC_SERVER_ID}**のプロビジョニングが終わりました\"}" ${RPC_DISCORD_WEBHOOK_URL}
 echo -e "$success Discordに通知"
