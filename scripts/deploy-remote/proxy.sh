@@ -3,7 +3,7 @@
 set -e
 
 # Nginx設定ファイルのコピー
-sudo cp -r "${RPC_NGINX_CONF_DIR_REPO}"/* "${RPC_NGINX_CONF_DIR_ORIGINAL}/nginx"
+sudo cp -r "${RPC_NGINX_CONF_DIR_REPO}"/nginx/* "${RPC_NGINX_CONF_DIR_ORIGINAL}"
 sudo chmod -R 755 "${RPC_NGINX_CONF_DIR_ORIGINAL}"
 
 # プロキシサービスの再起動

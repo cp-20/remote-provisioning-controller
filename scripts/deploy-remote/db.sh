@@ -3,7 +3,7 @@
 set -e
 
 # DB設定ファイルのコピー
-sudo cp -r "${RPC_DB_CONF_DIR_REPO}"/* "${RPC_DB_CONF_DIR_ORIGINAL}/mysql"
+sudo cp -r "${RPC_DB_CONF_DIR_REPO}"/mysql/* "${RPC_DB_CONF_DIR_ORIGINAL}"
 sudo chmod -R 755 "${RPC_DB_CONF_DIR_ORIGINAL}"
 
 # DBサービスの再起動

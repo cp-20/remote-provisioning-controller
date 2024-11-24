@@ -47,8 +47,8 @@ export RPC_APP_DIR_REPO="${PROJECT_ROOT:-/home/isucon/isucon14}/webapp"
 export RPC_APP_BIN_ORIGINAL=${APP_BIN_ORIGINAL:-"/home/isucon/webapp/go/isucon14"}
 export RPC_APP_SERVICE_NAME=${APP_SERVICE_NAME:-"isucon14"}
 
-export RPC_ENV_FILE_ORIGINAL="/home/isucon/env.sh"
-export RPC_ENV_FILE_REPO="${PROJECT_ROOT:-/home/isucon/isucon14}/${SERVER_ID}/env.sh"
+export RPC_ENV_FILE_ORIGINAL="/home/isucon/env"
+export RPC_ENV_FILE_REPO="${PROJECT_ROOT:-/home/isucon/isucon14}/${SERVER_ID}/env"
 
 export RPC_DB_USER="isucon"      # アプリから接続するユーザ
 export RPC_DB_ADMIN_USER="admin" # Adminerから接続するユーザ

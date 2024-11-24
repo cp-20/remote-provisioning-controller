@@ -118,17 +118,17 @@ fi
 echo "env = ${RPC_ENV_FILE_REPO}"
 if [ ! -f "${RPC_ENV_FILE_REPO}" ]; then
   mkdir -p $(dirname ${RPC_ENV_FILE_REPO})
-  sudo mv ${RPC_ENV_FILE_ORIGINAL} ${RPC_ENV_FILE_REPO}
-  sudo ln -s ${RPC_ENV_FILE_REPO} ${RPC_ENV_FILE_ORIGINAL}
-  sudo chmod 777 ${RPC_ENV_FILE_REPO}
+  # sudo mv ${RPC_ENV_FILE_ORIGINAL} ${RPC_ENV_FILE_REPO}
+  # sudo ln -s ${RPC_ENV_FILE_REPO} ${RPC_ENV_FILE_ORIGINAL}
+  # sudo chmod 777 ${RPC_ENV_FILE_REPO}
   echo -e "$success env.shをコピー"
 else
   echo -e "$info skipped env.shをコピー"
 fi
 
 # MySQLの設定
-sudo mysql -u root -e "UPDATE mysql.user SET Host = '%' WHERE User = '${RPC_DB_USER}' AND Host = 'localhost';"
-sudo mysql -u root -e "CREATE USER IF NOT EXISTS '${RPC_DB_ADMIN_USER}'@'localhost' IDENTIFIED BY '${RPC_DB_ADMIN_PASSWORD}' WITH MAX_USER_CONNECTIONS 3; GRANT ALL PRIVILEGES ON *.* TO '${RPC_DB_ADMIN_USER}'@'localhost' WITH GRANT OPTION;"
+# sudo mysql -u root -e "UPDATE mysql.user SET Host = '%' WHERE User = '${RPC_DB_USER}' AND Host = 'localhost';"
+# sudo mysql -u root -e "CREATE USER IF NOT EXISTS '${RPC_DB_ADMIN_USER}'@'localhost' IDENTIFIED BY '${RPC_DB_ADMIN_PASSWORD}' WITH MAX_USER_CONNECTIONS 3; GRANT ALL PRIVILEGES ON *.* TO '${RPC_DB_ADMIN_USER}'@'localhost' WITH GRANT OPTION;"
 echo -e "$success MySQLの設定"
 
 # ログファイルの作成
