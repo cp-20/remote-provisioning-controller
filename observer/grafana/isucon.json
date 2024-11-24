@@ -49,7 +49,7 @@
         "clockType": "24 hour",
         "countdownSettings": {
           "customFormat": "DD[days] HH:mm:ss",
-          "endCountdownTime": "$finish_time",
+          "endCountdownTime": "2024-11-24T22:10:00",
           "endText": "優勝おめでとう！！",
           "invalidValueText": "invalid value",
           "noValueText": "no value found",

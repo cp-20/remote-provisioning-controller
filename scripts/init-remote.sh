@@ -161,14 +161,12 @@ else
   echo -e "$info skipped node_exporterのインストール"
 fi
 if ! systemctl is-active --quiet node_exporter; then
-  sudo useradd -s /sbin/nologin node_exporter
-  sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter
   sudo tee /etc/systemd/system/node_exporter.service >/dev/null <<EOF
 [Unit]
 Description=Node Exporter
 
 [Service]
-User=node_exporter
+User=root
 ExecStart=/usr/local/bin/node_exporter
 
 [Install]
@@ -194,14 +192,12 @@ else
   echo -e "$info skipped systemd_exporterのインストール"
 fi
 if ! systemctl is-active --quiet systemd_exporter; then
-  sudo useradd -s /sbin/nologin systemd_exporter
-  sudo chown systemd_exporter:systemd_exporter /usr/local/bin/systemd_exporter
   sudo tee /etc/systemd/system/systemd_exporter.service >/dev/null <<EOF
 [Unit]
 Description=Systemd Exporter
 
 [Service]
-User=systemd_exporter
+User=root
 ExecStart=/usr/local/bin/systemd_exporter
 
 [Install]
@@ -237,7 +233,7 @@ positions:
 clients:
   - url: ${RPC_LOKI_URL}
 scrape_configs:
-  - job_name: journal
+  - job_name: systemd-journal
     journal:
       max_age: 8h
       labels:
@@ -246,17 +242,13 @@ scrape_configs:
     relabel_configs:
       - source_labels: ['__journal__systemd_unit']
         target_label: 'unit'
-      - source_labels: ['__journal__hostname']
-        target_label: 'hostname'
 EOF
-  sudo useradd -s /sbin/nologin promtail
-  sudo chown promtail:promtail /usr/local/bin/promtail /etc/promtail-local-config.yaml
   sudo tee /etc/systemd/system/promtail.service >/dev/null <<EOF
 [Unit]
-Description=Loki
+Description=Promtail
 
 [Service]
-User=promtail
+User=root
 ExecStart=/usr/local/bin/promtail -config.file /etc/promtail-local-config.yaml
 
 [Install]
@@ -286,15 +278,13 @@ PPROTEIN_SLOWLOG=${RPC_DB_SLOW_LOG_PATH}
 PPROTEIN_GIT_REPOSITORY=${RPC_PROJECT_ROOT}
 PORT=10008
 EOF
-  sudo useradd -s /sbin/nologin pprotein-agent
-  sudo chown pprotein-agent:pprotein-agent /usr/local/bin/pprotein-agent /etc/default/pprotein-agent.env
   sudo tee /etc/systemd/system/pprotein-agent.service >/dev/null <<EOF
 [Unit]
 Description=pprotein-agent
 After=network.target
 
 [Service]
-User=pprotein-agent
+User=root
 ExecStart=/usr/local/bin/pprotein-agent
 EnvironmentFile=/etc/default/pprotein-agent.env
 Restart=always
