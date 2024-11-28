@@ -39,6 +39,9 @@ export RPC_DB_CONF_DIR_ORIGINAL="/etc/mysql"
 export RPC_DB_CONF_DIR_REPO="${PROJECT_ROOT:-/home/isucon/isucon14}/${SERVER_ID}/etc"
 export RPC_DB_SLOW_LOG_PATH="/var/log/mysql/mysql-slow.log"
 
+export RPC_SQL_DIR_ORIGINAL="/home/isucon/webapp/sql"
+export RPC_SQL_DIR_REPO="${PROJECT_ROOT:-/home/isucon/isucon14}/webapp/sql"
+
 export RPC_SYSTEMD_CONF_DIR_ORIGINAL="/etc/systemd/system"
 export RPC_SYSTEMD_CONF_DIR_REPO="${PROJECT_ROOT:-/home/isucon/isucon14}/${SERVER_ID}/etc/systemd"
 

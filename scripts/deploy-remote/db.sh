@@ -14,3 +14,6 @@ if [ -f "${RPC_DB_SLOW_LOG_FILE}" ]; then
   sudo truncate -s 0 "${RPC_DB_SLOW_LOG_FILE}"
   sudo chmod 777 "${RPC_DB_SLOW_LOG_FILE}"
 fi
+
+sudo cp -r "${RPC_SQL_DIR_REPO}"/* "${RPC_SQL_DIR_ORIGINAL}"
+# sudo cp -r "${RPC_SQL_DIR_REPO}"/5_user_presents_not_receive_data.tsv "/var/lib/mysql-files/5_user_presents_not_receive_data.tsv"

@@ -3,7 +3,9 @@
 set -e
 
 # リポジトリのPull
-git -C "${RPC_PROJECT_ROOT}" pull origin "${RPC_DEPLOY_BRANCH}"
+# RPC_DEPLOY_BRANCHのブランチにreset hard
+git -C "${RPC_PROJECT_ROOT}" fetch origin
+git -C "${RPC_PROJECT_ROOT}" reset --hard origin/${RPC_DEPLOY_BRANCH}
 
 # 最新コミットの取得
 last_commit=$(git -C "${RPC_PROJECT_ROOT}" log --pretty=oneline -n 1)

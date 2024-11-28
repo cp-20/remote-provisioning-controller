@@ -50,27 +50,16 @@ services:
       watch:
         - path: ./tunnel/config
           action: rebuild
-  # s2:
-  #   build: ./tunnel
-  #   volumes:
-  #     - ./tunnel/config:/etc/ssh/ssh_config:ro
-  #   command: -N s2
-  #   restart: always
-  # develop:
-  #   watch:
-  #     - path: ./tunnel/config
-  # action: rebuild
-  # s3:
-  #   build: ./tunnel
-  #   volumes:
-  #     - ./tunnel/config:/etc/ssh/ssh_config:ro
-  #   command: -N s3
-  #   restart: always
-  # develop:
-  #   watch:
-  #     - path: ./tunnel/config
-  # action: rebuild
-
+  s2:
+    build: ./tunnel
+    volumes:
+      - ./tunnel/config:/etc/ssh/ssh_config:ro
+    command: -N s2
+    restart: always
+    develop:
+      watch:
+        - path: ./tunnel/config
+          action: rebuild
 volumes:
   grafana:
   pprotein:
