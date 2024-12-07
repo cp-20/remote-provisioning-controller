@@ -200,7 +200,9 @@ const routes = app
       'log',
       `${system} <span class="font-bold">${username}</span> が <span class="font-bold">${branch}</span> のデプロイを開始しました`
     );
-    const process = Bun.spawn(['bash', deployScript]);
+    const process = Bun.spawn(['bash', deployScript], {
+      env: { ...Bun.env, DEPLOY_BRANCH: branch },
+    });
     const reader = process.stdout.getReader();
     while (true) {
       const { done, value } = await reader.read();

@@ -32,6 +32,150 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 50
+              },
+              {
+                "color": "green",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 16,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "cache_metrics_cache_hits_total / (cache_metrics_cache_hits_total + cache_metrics_cache_misses_total)",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{cache}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "キャッシュヒット率",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 10000,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 5000
+              },
+              {
+                "color": "red",
+                "value": 8000.0002
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 17,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.3.0",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "cache_metrics_cache_size",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{cache}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "キャッシュ容量",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {},
@@ -41,7 +185,7 @@
         "h": 3,
         "w": 18,
         "x": 3,
-        "y": 0
+        "y": 16
       },
       "id": 15,
       "options": {
@@ -116,7 +260,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 3
+        "y": 19
       },
       "id": 4,
       "panels": [],
@@ -188,7 +332,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 4
+        "y": 20
       },
       "id": 1,
       "options": {
@@ -295,7 +439,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 4
+        "y": 20
       },
       "id": 2,
       "options": {
@@ -342,7 +486,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 29
       },
       "id": 12,
       "panels": [],
@@ -417,7 +561,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 30
       },
       "id": 5,
       "options": {
@@ -526,7 +670,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 30
       },
       "id": 6,
       "options": {
@@ -639,7 +783,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 21
+        "y": 37
       },
       "id": 7,
       "options": {
@@ -755,7 +899,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 21
+        "y": 37
       },
       "id": 8,
       "options": {
@@ -829,6 +973,6 @@
   "timezone": "",
   "title": "ISUCON",
   "uid": "aaee4b4e-1317-4d73-895f-59c4fed3bcb0",
-  "version": 1,
+  "version": 9,
   "weekStart": ""
 }

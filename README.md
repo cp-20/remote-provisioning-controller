@@ -44,3 +44,59 @@ export GITHUB_REPO_NAME="リポジトリの名前"
 export APP_BIN_ORIGINAL="アプリの実行ファイルのパス"
 export APP_SERVICE_NAME="サービス名"
 ```
+
+### 本番環境に計測環境を持ち込む
+
+#### pprof
+
+```go
+import (
+  _ "net/http/pprof"
+)
+
+// ...
+
+func main() {
+  go func() {
+    log.Println(http.ListenAndServe(":8888", nil))
+  }()
+
+  // ...
+}
+```
+
+#### MySQL (slow query log)
+
+```conf
+[mysqld]
+slow_query_log_file='/var/log/mysql/mysql-slow.log'
+slow_query_log=1
+long_query_time=0
+```
+
+#### Nginx (access log)
+
+```
+http {
+    # ...
+
+    log_format ltsv "time:$time_local"
+    "\thost:$remote_addr"
+    "\tforwardedfor:$http_x_forwarded_for"
+    "\treq:$request"
+    "\tstatus:$status"
+    "\tmethod:$request_method"
+    "\turi:$request_uri"
+    "\tsize:$body_bytes_sent"
+    "\treferer:$http_referer"
+    "\tua:$http_user_agent"
+    "\treqtime:$request_time"
+    "\tcache:$upstream_http_x_cache"
+    "\truntime:$upstream_http_x_runtime"
+    "\tapptime:$upstream_response_time"
+    "\tvhost:$host";
+  	access_log /var/log/nginx/access.log ltsv;
+
+    # ...
+}
+```

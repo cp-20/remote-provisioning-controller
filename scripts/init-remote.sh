@@ -94,9 +94,9 @@ echo -e "$success Gitリポジトリの初期化"
 
 # 設定ファイルをコピー (masterのみ)
 if [ $RPC_IS_MASTER = "true" ]; then
-  mkdir -p ${RPC_NGINX_CONF_DIR_REPO}
-  mkdir -p ${RPC_DB_CONF_DIR_REPO}
-  mkdir -p ${RPC_SYSTEMD_CONF_DIR_REPO}
+  mkdir -p $(dirname ${RPC_NGINX_CONF_DIR_REPO})
+  mkdir -p $(dirname ${RPC_DB_CONF_DIR_REPO})
+  mkdir -p $(dirname ${RPC_SYSTEMD_CONF_DIR_REPO})
   sudo cp -r ${RPC_NGINX_CONF_DIR_ORIGINAL}/ ${RPC_NGINX_CONF_DIR_REPO}
   sudo cp -r ${RPC_DB_CONF_DIR_ORIGINAL}/ ${RPC_DB_CONF_DIR_REPO}
   sudo cp -r ${RPC_SYSTEMD_CONF_DIR_ORIGINAL}/ ${RPC_SYSTEMD_CONF_DIR_REPO}
@@ -108,7 +108,7 @@ fi
 
 # webappをコピー (masterのみ)
 if [ $RPC_IS_MASTER = "true" ]; then
-  mkdir -p ${RPC_APP_DIR_REPO}
+  mkdir -p $(dirname ${RPC_APP_DIR_REPO})
   sudo cp -r ${RPC_APP_DIR_ORIGINAL}/ ${RPC_APP_DIR_REPO}
   sudo chmod -R 777 ${RPC_APP_DIR_REPO}
   echo -e "$success webappをコピー"
@@ -118,17 +118,17 @@ fi
 echo "env = ${RPC_ENV_FILE_REPO}"
 if [ ! -f "${RPC_ENV_FILE_REPO}" ]; then
   mkdir -p $(dirname ${RPC_ENV_FILE_REPO})
-  # sudo mv ${RPC_ENV_FILE_ORIGINAL} ${RPC_ENV_FILE_REPO}
-  # sudo ln -s ${RPC_ENV_FILE_REPO} ${RPC_ENV_FILE_ORIGINAL}
-  # sudo chmod 777 ${RPC_ENV_FILE_REPO}
+  sudo mv ${RPC_ENV_FILE_ORIGINAL} ${RPC_ENV_FILE_REPO}
+  sudo ln -s ${RPC_ENV_FILE_REPO} ${RPC_ENV_FILE_ORIGINAL}
+  sudo chmod 777 ${RPC_ENV_FILE_REPO}
   echo -e "$success env.shをコピー"
 else
   echo -e "$info skipped env.shをコピー"
 fi
 
 # MySQLの設定
-# sudo mysql -u root -e "UPDATE mysql.user SET Host = '%' WHERE User = '${RPC_DB_USER}' AND Host = 'localhost';"
-# sudo mysql -u root -e "CREATE USER IF NOT EXISTS '${RPC_DB_ADMIN_USER}'@'localhost' IDENTIFIED BY '${RPC_DB_ADMIN_PASSWORD}' WITH MAX_USER_CONNECTIONS 3; GRANT ALL PRIVILEGES ON *.* TO '${RPC_DB_ADMIN_USER}'@'localhost' WITH GRANT OPTION;"
+sudo mysql -u root -e "UPDATE mysql.user SET Host = '%' WHERE User = '${RPC_DB_USER}';"
+sudo mysql -u root -e "CREATE USER IF NOT EXISTS '${RPC_DB_ADMIN_USER}'@'localhost' IDENTIFIED BY '${RPC_DB_ADMIN_PASSWORD}' WITH MAX_USER_CONNECTIONS 3; GRANT ALL PRIVILEGES ON *.* TO '${RPC_DB_ADMIN_USER}'@'localhost' WITH GRANT OPTION;"
 echo -e "$success MySQLの設定"
 
 # ログファイルの作成
@@ -141,6 +141,7 @@ echo -e "$success ログファイルの作成"
 # GitHubにpush (masterのみ)
 if [ $RPC_IS_MASTER = "true" ]; then
   cd ${RPC_PROJECT_ROOT}
+  git pull origin ${RPC_DEPLOY_BRANCH}
   git add .
   git commit -m 'deploy'
   git branch -M main
