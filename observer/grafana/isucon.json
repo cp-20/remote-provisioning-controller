@@ -193,7 +193,7 @@
         "clockType": "24 hour",
         "countdownSettings": {
           "customFormat": "DD[days] HH:mm:ss",
-          "endCountdownTime": "2024-11-24T22:10:00",
+          "endCountdownTime": "2024-12-08T18:00:00",
           "endText": "優勝おめでとう！！",
           "invalidValueText": "invalid value",
           "noValueText": "no value found",

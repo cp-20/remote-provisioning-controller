@@ -22,6 +22,20 @@ services:
       - ./grafana/log.json:/var/lib/grafana/dashboards/log.json
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel
+    develop:
+      watch:
+        - path: ./grafana/datasource.yml
+          target: /etc/grafana/provisioning/datasources/datasource.yml
+          action: sync+restart
+        - path: ./grafana/dashboard.yml
+          target: /etc/grafana/provisioning/dashboards/dashborad.yml
+          action: sync+restart
+        - path: ./grafana/isucon.json
+          target: /var/lib/grafana/dashboards/isucon.json
+          action: sync+restart
+        - path: ./grafana/log.json
+          target: /var/lib/grafana/dashboards/log.json
+          action: sync+restart
   pprotein:
     build: ./pprotein
     ports:
