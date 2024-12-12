@@ -45,6 +45,14 @@ export APP_BIN_ORIGINAL="アプリの実行ファイルのパス"
 export APP_SERVICE_NAME="サービス名"
 ```
 
+### config.json を書く
+
+`config-sample.json` っぽい感じで、IPアドレスを書く
+
+### observer/tunnel/config を書く
+
+`observer/tunnel/config-sample` っぽい感じで、IPアドレスを書く
+
 ### 本番環境に計測環境を持ち込む
 
 #### pprof
