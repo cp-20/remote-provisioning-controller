@@ -2,6 +2,8 @@
 
 ISUCON 用のプロビジョニングツール
 
+inspired by [isu-isu-h](https://github.com/reactive-futakotamagawa/isu-isu-h-13) by [@ikura-hamu](https://github.com/ikura-hamu)
+
 ## 使い方
 
 ### 下準備
